@@ -1,3 +1,4 @@
+import helpers
 from django.contrib import admin
 from cloudinary import CloudinaryImage
 from django.utils.html import format_html
@@ -6,8 +7,30 @@ from .models import Course,Lesson
 #admin customization
 class LessonInline(admin.StackedInline):
     model=Lesson
-    readonly_fields=['public_id','updated']
+    readonly_fields=['public_id','updated','display_image','display_video']
     extra=0
+
+    def display_image(self, obj, *args, **kwargs):
+        url = helpers.get_cloudinary_image_object(
+            obj, 
+            field_name='thumbnail',
+            width=200
+        )
+        return format_html(f"<img src={url} />")
+
+    display_image.short_description = "Current Image" 
+
+    def display_video(self, obj, *args, **kwargs):
+        video_embed_html= helpers.get_cloudinary_video_object(
+            obj, 
+            field_name='video',
+            as_html=True,
+            width=550
+        )
+        return video_embed_html
+
+    display_video.short_description = "Current video"   
+  
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
@@ -18,13 +41,11 @@ class CourseAdmin(admin.ModelAdmin):
     readonly_fields=['public_id','display_image']
 
     
-    def display_image(obj,self,*args,**kwargs):
-        url=obj.image.url
-        cloudinary_id=str(obj.image)
-        cloudinary_html=CloudinaryImage(cloudinary_id).image(width=500)
-        return format_html(cloudinary_html)
-       # return format_html(f"<img src='{url}'/>")
+    def display_image(self, obj, *args, **kwargs):
+        url=obj.image_admin_url
+        return format_html(f"<img src={url} />")
 
-    display_image.short_description="current image"    
+    display_image.short_description = "Current Image"  
+  
 
 #admin.site.register(Course)

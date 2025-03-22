@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<h1>{{object.title}}</h1>
+
+{% comment %} {% if object.is_coming_soon%} {% endcomment %}
+<p class="text-red-500">Lesson-Coming Soon</p>
+{% comment %} {%endif %} {% endcomment %}
+{% comment %} {{video_embed}} {% endcomment %}
+
+{%endblock content %}

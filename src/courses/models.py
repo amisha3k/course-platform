@@ -3,6 +3,7 @@ import helpers
 from django.db import models
 from django.utils.text import slugify
 from cloudinary.models import CloudinaryField
+from django.urls import reverse
 
 """
 Field	Purpose
@@ -76,14 +77,14 @@ def get_display_name(instance,*args,**kwargs):
           return instance.get_display_name()
      elif hasattr(instance,'title'):
           return instance.title
-     model_classs=instance.__class__
+     model_class=instance.__class__
      model_name=model_class.__name__         
      return "Courses upload"     
 
 class Course(models.Model):
      title=models.CharField(max_length=120)
      description=models.TextField(blank=True, null=True)
-     public_id=models.CharField(max_length=130,blank=True,null=True)
+     public_id=models.CharField(max_length=130,blank=True,null=True,db_index=True)
      #image=models.ImageField(upload_to=handle_upload,blank=True,null=False)
      image=CloudinaryField(
           "image", 
@@ -115,9 +116,9 @@ class Course(models.Model):
 
      @property
      def path(self):
-          return f"/courses/{self.public_id}"     
+          return f"/courses/{self.public_id}"
 
-     def get_display_nema(self):  
+     def get_display_name(self):  
           return f"{self.title}-Course"   
 
 
@@ -127,6 +128,12 @@ class Course(models.Model):
 
      @property
      def image_admin_url(self):
+          return helpers.get_cloudinary_image_object(
+               self,
+               field_name="image",
+               as_html=False,
+               width=200
+          )
           if not self.image:
                return ""
           image_options={
@@ -136,29 +143,27 @@ class Course(models.Model):
           return url  
 
      def get_image_thumbnail(self,as_html=False,width=500):
-          if not self.image:
-               return ""
-          image_options={
-               "width":width
-          }     
-          if as_html:
-               return self.image,image(**image_options)
-
-          url=self.image.build_url(**image_options)   
-          return url  
+          return helpers.get_cloudinary_image_object(
+               self,
+               field_name="image",
+               as_html=False,
+               width=width
+          )
 
      def get_image_detail(self,as_html=False,width=750):
-          if not self.image:
-               return ""
-          image_options={
-               "width":width
-          }     
-          if as_html:
-               return self.image,image(**image_options)
+           return helpers.get_cloudinary_image_object(
+               self,
+               field_name="image",
+               as_html=False,
+               width=width
+          )
 
-          url=self.image.build_url(**image_options)   
-          return url  
+     def display_video(self):
+        if self.video:
+            return mark_safe(f'<video width="200" controls><source src="{self.video.url}" type="video/mp4"></video>')
+        return "No Video"
 
+        display_video.short_description = "Video Preview"     
 """
 lesson
      title
@@ -190,6 +195,7 @@ class Lesson(models.Model):
            display_name=get_display_name,
            blank=True,
            null=True,
+           type='private',
            tags=['video','lesson'],
            resource_type='video')
      order=models.BigIntegerField(default=0)
@@ -210,7 +216,11 @@ class Lesson(models.Model):
           if self.public_id=="" or self.public_id is None:
              self.public_id=generate_public_id(self)
           super().save(*args,**kwargs)
-          #after save   
+          #after save  
+
+     def get_absolute_url(self):
+         return self.path
+     
 
      @property
      def path(self):
@@ -219,7 +229,13 @@ class Lesson(models.Model):
                course_path=course_path[:-1]
           return f"{course_path}/lessons/{self.public_id}"     
 
-     def get_display_nema(self):  
-          return f"{self.title}-{self.course.get_display_name()}"     
-     
+     def get_display_name(self):  
+          return f"{self.title}-{self.course.get_display_name()}"  
 
+     @property
+     def is_coming_soon(self):
+          return self.status==PublishStatus.COMING_SOON          
+     
+     @property
+     def has_video(self):
+          return self.video is not None
