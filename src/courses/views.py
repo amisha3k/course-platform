@@ -2,7 +2,7 @@
 # It interacts with the services.py module to fetch courses and lessons.
 import helpers
 from django.http import Http404, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect 
 from . import services
 
 
@@ -39,8 +39,14 @@ def lesson_detail_view(request, course_id=None, lesson_id=None, *args, **kwargs)
 
      lesson_obj = services.get_lesson_detail(course_id=course_id, lesson_id=lesson_id)
      if lesson_obj is None:
-         return JsonResponse({"error": "Lesson not found", "course_id": course_id, "lesson_id": lesson_id}, status=404)
-     print("Lesson Object Found:", lesson_obj)  # Debugging line
+         return Http404
+
+     email_id_exists=request.session.get('email_id')
+     if lesson_obj.requires_email and not email_id_exists:
+        request.session['next_url']=request.build_absolute_uri()    
+        return render(request,"courses/email-required.html",{})
+     print("Lesson Object Found:", lesson_obj) 
+     
      #template_name="courses/purchase-required.html"
      template_name="courses/lesson-coming-soon.html"
      context={

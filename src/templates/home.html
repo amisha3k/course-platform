@@ -7,6 +7,16 @@
  
 
  {% block content %}
-  <h1> hello world</h1>
-  {{ block.super}}
+  <h1>This is home page</h1>
+    
+  <div>
+    <form method="POST" action=".">
+        {%csrf_token %}
+        {{ form }}
+        <button type="submit">Login</button>
+    </form>
+  </div>
+
+
+  {% comment %} {{ block.super}} {% endcomment %}
  {% endblock content%}
