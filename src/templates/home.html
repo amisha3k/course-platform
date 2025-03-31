@@ -7,16 +7,9 @@
  
 
  {% block content %}
-  <h1>This is home page</h1>
-    
-  <div>
-    <form method="POST" action=".">
-        {%csrf_token %}
-        {{ form }}
-        <button type="submit">Login</button>
-    </form>
-  </div>
+    <h1>this is home.html</h1>
 
+    <div hx-get="/hx/login/" hx-trigger="load"></div>
 
   {% comment %} {{ block.super}} {% endcomment %}
  {% endblock content%}

@@ -67,8 +67,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #third party
+    'django_htmx',
+    'tailwind',
+    'theme',
+    #internal
     'courses',
     'emails',
+]
+NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"
+TAILWIND_APP_NAME="theme"
+INTERNAL_IPS=[
+    "0.0.0.0",
+    "127.0.0.1",
 ]
 
 MIDDLEWARE = [
@@ -79,7 +90,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
+if DEBUG:
+    INSTALLED_APPS.append("django_browser_reload")
+    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
 
 ROOT_URLCONF = 'cfehome.urls'
 

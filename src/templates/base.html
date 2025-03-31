@@ -1,15 +1,45 @@
+{% load static tailwind_tags %}
 <!doctype html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    {% include 'base/js.html' %}
-    <title>{% block head_title%} hello world from course platform {%endblock head_title%}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+    {% tailwind_css %}
   </head>
-  <body>
-    {% block content%}
-    {% endblock content%}
-    </h1>
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+     {% include 'base/navbar.html' %}
+
+    <div hx-get="/hx/login/" hx-trigger="load"></div>
+
+      {% block content %}
+      <h1 class="text-3xl font-bold underline">Hello world from base</h1>
+      {% endblock content %}
+
+
+    {% include 'base/js.html' %}
   </body>
 </html>
+
+{% comment %} {% load static tailwind_tags %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% tailwind_css %}
+    {% include 'base/navbar.html' %}
+  </head>
+  <body hx-header='{"X-CSRFToken": "{{csrf_token}}"}'>
+
+    <div hx-get="/hx/login/" hx-trigger="load"></div>
+
+    {% block content%}
+    <h1 class="text-3xl font-bold underline">hello world from course platform</h1>
+    {% endblock content%}
+    {% include 'base/js.html' %}
+  </body>
+</html> {% endcomment %}
+
