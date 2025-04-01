@@ -11,3 +11,31 @@
   <li>flowbite</li>
   <li>Cloudinary</li>
 </ul>
+<h2>Overview</h2>
+<ul>
+  <li>Courses:</li>
+    <ul>
+          <li>Title</li>
+          <li>Description</li>
+          <li>Thumbnail</li>
+          <li>Access:</li>
+          <ul>
+                <li>anyone</li></li>
+                <li>email required</li>
+          </ul> 
+          <li>Status</li>
+          <ul>
+                 <li>Published</li>
+                 <li>Coming soon</li>
+                 <li>Draft</li>
+          </ul>  
+          <li>Lesssons</li>
+         <ul>
+                <li>Title</li>
+                <li>Description</li>
+                <li>Video</li>
+                <li>Status:Published, Coming soon, Draft</li>
+         </ul>
+    </ul>  
+  <li>Email verification for short-lived access</li>
+</ul>
