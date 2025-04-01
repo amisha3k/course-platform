@@ -1,16 +1,13 @@
-Course Platform
+📚 Course Platform README
 
-📌 Overview
+🛠 Tech Stack
 
-This is a web-based Course Platform that allows users to browse, enroll in, and manage courses efficiently. The platform provides an interactive interface for both students and instructors.
+🖥️ Backend
 
-🚀 Tech Stack
+🐍 Django v5.1 (Python)
 
-Frontend
+⚙️ Django REST Framework (DRF) for API development
 
-React.js
+🔄 HTMX
 
-Tailwind CSS
-
-Django-HTMX (for enhanced interactivity)
-
+🌐 django-htmx
