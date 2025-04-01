@@ -1,4 +1,4 @@
-{% load static tailwind_tags %}
+ {% load static tailwind_tags %}
 <!doctype html>
 <html>
   <head>
@@ -11,7 +11,7 @@
   <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
      {% include 'base/navbar.html' %}
 
-    <div hx-get="/hx/login/" hx-trigger="load"></div>
+    <div hx-get="/hx/login/" hx-trigger="load"></div> 
 
       {% block content %}
       <h1 class="text-3xl font-bold underline">Hello world from base</h1>
@@ -20,26 +20,4 @@
 
     {% include 'base/js.html' %}
   </body>
-</html>
-
-{% comment %} {% load static tailwind_tags %}
-<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% tailwind_css %}
-    {% include 'base/navbar.html' %}
-  </head>
-  <body hx-header='{"X-CSRFToken": "{{csrf_token}}"}'>
-
-    <div hx-get="/hx/login/" hx-trigger="load"></div>
-
-    {% block content%}
-    <h1 class="text-3xl font-bold underline">hello world from course platform</h1>
-    {% endblock content%}
-    {% include 'base/js.html' %}
-  </body>
-</html> {% endcomment %}
-
+</html> 
