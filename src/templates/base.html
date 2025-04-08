@@ -1,23 +1,27 @@
- {% load static tailwind_tags %}
+{% load static tailwind_tags %}
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://unpkg.com/htmx.org@1.9.4"></script>
-    {% tailwind_css %}
-  </head>
-  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-     {% include 'base/navbar.html' %}
+<head>
+  <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {% tailwind_css %}
+  
+  <title>{% block head_title %}Hello World from Course Platform
+  {% endblock head_title %}</title>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  {% include 'base/navbar.html' %}
+  
+    <div class="px-4 mx-auto max-w-screen-xl">
 
-    <div hx-get="/hx/login/" hx-trigger="load"></div> 
-
-      {% block content %}
-      <h1 class="text-3xl font-bold underline">Hello world from base</h1>
-      {% endblock content %}
-
-
+    {% comment %} <div class="{% if '/logout' in request.path or '/login' in request.path%} {% else %}px-4 mx-auto max-w-screen-xl{% endif %}"> {% endcomment %}
+    {% block content %}
+    <h1 class="text-3xl font-bold underline">
+        Hello world from base!
+      </h1>
+    {% endblock content %}
+  </div>
     {% include 'base/js.html' %}
-  </body>
-</html> 
+</body>
+</html>

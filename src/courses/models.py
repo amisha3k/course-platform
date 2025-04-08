@@ -119,7 +119,29 @@ class Course(models.Model):
           return f"/courses/{self.public_id}"
 
      def get_display_name(self):  
-          return f"{self.title}-Course"   
+          return f"{self.title}-Course"
+
+     def get_thumbnail(self):
+          if not self.image:
+               return None
+          return  helpers.get_cloudinary_image_object(
+            self, 
+            field_name='image',
+            as_html=False,
+            width=382
+        )
+        
+     
+     def get_display_image(self):
+           if not self.image:
+               return None
+           return  helpers.get_cloudinary_image_object(
+            self, 
+            field_name='image',
+            as_html=True,
+            width=750
+        )
+
 
 
      @property

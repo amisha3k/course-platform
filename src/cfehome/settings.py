@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     #internal
     'courses',
     'emails',
+    'chatbot',
 ]
 NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"
 TAILWIND_APP_NAME="theme"

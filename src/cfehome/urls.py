@@ -3,11 +3,13 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
+from chatbot.views import chatbot_view
 from emails.views import verify_email_token_view,email_token_login_view,logout_btn_hx_view
 from . import views
 
 urlpatterns = [
     path("",views.home_view),
+    path("chatbot/", chatbot_view, name="chatbot-response"),
     path("login/",views.login_logout_template_view),
     path("logout/",views.login_logout_template_view),
     path('hx/login/', email_token_login_view),
